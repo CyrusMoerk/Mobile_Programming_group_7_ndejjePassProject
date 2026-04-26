@@ -1,4 +1,4 @@
-// data/db/entities/PaymentEntity.kt
+
 // One row per payment submission. Status flows: pending → approved/rejected.
 // Tuition only — exam and functional fees removed.
 
