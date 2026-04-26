@@ -1,32 +1,61 @@
-// ui/screens/ProfileScreen.kt
-// Locked fields shown as plain Text() — no TextField, no cursor, not tappable.
-// Editable fields shown as OutlinedTextField() — fully interactive.
-// The visual difference makes it obvious to the student what they can change.
+package com.example.ndejjepassproject.ui.screens
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.ndejjepassproject.viewmodel.ProfileViewModel
 
 @Composable
 fun ProfileScreen(vm: ProfileViewModel, nav: NavController) {
-    val student  by vm.studentState.collectAsStateWithLifecycle()
-    val edit     by vm.editState.collectAsStateWithLifecycle()
-    val pw       by vm.pwState.collectAsStateWithLifecycle()
+    val student by vm.studentState.collectAsState()
+    val edit by vm.editState.collectAsState()
+    val pw by vm.pwState.collectAsState()
 
-    LaunchedEffect(edit.saveSuccess) { if (edit.saveSuccess) nav.popBackStack() }
+    LaunchedEffect(edit.saveSuccess) {
+        if (edit.saveSuccess) nav.popBackStack()
+    }
 
-    LazyColumn(Modifier.fillMaxSize().padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-
-        item {
-            Text("My profile", style = MaterialTheme.typography.titleLarge)
-        }
-
-        // ── LOCKED FIELDS — displayed as read-only info, not input fields ──
+    LazyColumn(
+        Modifier.fillMaxSize().padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        item { Text("My profile", style = MaterialTheme.typography.titleLarge) }
         item {
             SectionHeader("University details")
-            LockedField(label = "Email",         value = student?.email ?: "")
-            LockedField(label = "Reg number",    value = student?.regNumber ?: "")
-            LockedField(label = "Program",       value = student?.programName ?: "")
-            LockedField(label = "Program code",  value = student?.programCode ?: "")
+            LockedField(label = "Email", value = student?.email ?: "")
+            LockedField(label = "Reg number", value = student?.regNumber ?: "")
+            LockedField(label = "Program", value = student?.programName ?: "")
+            LockedField(label = "Program code", value = student?.programCode ?: "")
         }
-
-        // ── EDITABLE FIELDS — bound to editState via ViewModel setters ──
         item {
             SectionHeader("Edit your info")
             OutlinedTextField(
@@ -36,52 +65,47 @@ fun ProfileScreen(vm: ProfileViewModel, nav: NavController) {
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(8.dp))
-            // Year dropdown — 1 to 5 only
-            DropdownSelector(
+            SelectionRow(
                 label = "Year of study",
                 options = (1..5).map { "Year $it" },
-                selected = "Year ${edit.year}",
+                selectedIndex = (edit.year - 1).coerceIn(0, 4),
                 onSelected = { idx -> vm.onYearChanged(idx + 1) }
             )
             Spacer(Modifier.height(8.dp))
-            // Semester — only 1 or 2
-            DropdownSelector(
+            SelectionRow(
                 label = "Semester",
                 options = listOf("Semester 1", "Semester 2"),
-                selected = "Semester ${edit.semester}",
+                selectedIndex = (edit.semester - 1).coerceIn(0, 1),
                 onSelected = { idx -> vm.onSemesterChanged(idx + 1) }
             )
             edit.error?.let { Text(it, color = MaterialTheme.colorScheme.error, fontSize = 13.sp) }
             Spacer(Modifier.height(12.dp))
-            Button(
-                onClick = vm::saveProfile,
-                modifier = Modifier.fillMaxWidth(),
-                enabled = !edit.isSaving
-            ) {
-                if (edit.isSaving) CircularProgressIndicator(Modifier.size(18.dp))
+            Button(onClick = vm::saveProfile, modifier = Modifier.fillMaxWidth(), enabled = !edit.isSaving) {
+                if (edit.isSaving) CircularProgressIndicator(Modifier.height(18.dp))
                 else Text("Save changes")
             }
         }
-
-        // ── CHANGE PASSWORD — separate section, separate ViewModel state ──
         item {
             SectionHeader("Change password")
             OutlinedTextField(
-                value = pw.current, onValueChange = vm::onCurrentPwChanged,
+                value = pw.current,
+                onValueChange = vm::onCurrentPwChanged,
                 label = { Text("Current password") },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(6.dp))
             OutlinedTextField(
-                value = pw.newPw, onValueChange = vm::onNewPwChanged,
+                value = pw.newPw,
+                onValueChange = vm::onNewPwChanged,
                 label = { Text("New password") },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(6.dp))
             OutlinedTextField(
-                value = pw.confirm, onValueChange = vm::onConfirmPwChanged,
+                value = pw.confirm,
+                onValueChange = vm::onConfirmPwChanged,
                 label = { Text("Confirm new password") },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
@@ -94,28 +118,52 @@ fun ProfileScreen(vm: ProfileViewModel, nav: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !pw.isSaving
             ) {
-                if (pw.isSaving) CircularProgressIndicator(Modifier.size(18.dp))
+                if (pw.isSaving) CircularProgressIndicator(Modifier.height(18.dp))
                 else Text("Update password")
             }
         }
     }
 }
 
-// Reusable composable for locked fields — looks different from editable fields.
-// No cursor, no focus, shown as label + value rows. Makes it visually clear.
 @Composable
-fun LockedField(label: String, value: String) {
+private fun SectionHeader(title: String) {
+    Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+}
+
+@Composable
+private fun SelectionRow(
+    label: String,
+    options: List<String>,
+    selectedIndex: Int,
+    onSelected: (Int) -> Unit
+) {
+    Text(label, style = MaterialTheme.typography.labelLarge)
+    Spacer(Modifier.height(6.dp))
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        options.forEachIndexed { index, option ->
+            OutlinedButton(onClick = { onSelected(index) }) {
+                Text(if (index == selectedIndex) "$option *" else option)
+            }
+        }
+    }
+}
+
+@Composable
+private fun LockedField(label: String, value: String) {
     Row(
         Modifier.fillMaxWidth().padding(vertical = 6.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(label, color = Color.Gray, fontSize = 13.sp)
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(value, fontSize = 13.sp, fontWeight = FontWeight.Medium)
             Spacer(Modifier.width(4.dp))
-            // Lock icon makes it obvious this field cannot be changed
-            Icon(Icons.Default.Lock, contentDescription = "Locked",
-                modifier = Modifier.size(13.dp), tint = Color.Gray)
+            androidx.compose.material3.Icon(
+                Icons.Default.Lock,
+                contentDescription = "Locked",
+                tint = Color.Gray
+            )
         }
     }
     Divider()

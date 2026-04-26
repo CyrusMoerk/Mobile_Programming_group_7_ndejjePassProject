@@ -1,24 +1,57 @@
-// ui/screens/PaymentScreen.kt
-// Three method buttons (MTN / Airtel / Bank) plus dynamic input fields.
-// When isProcessing = true, shows a spinner and disables the button.
-// When isSuccess = true, navigates back to dashboard automatically.
+package com.example.ndejjepassproject.ui.screens
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.ndejjepassproject.viewmodel.PaymentViewModel
 
 @Composable
 fun PaymentScreen(vm: PaymentViewModel, nav: NavController) {
-    val s by vm.state.collectAsStateWithLifecycle()
+    val s by vm.state.collectAsState()
 
-    // Navigate back automatically on success
     LaunchedEffect(s.isSuccess) {
-        if (s.isSuccess) { nav.popBackStack(); vm.reset() }
+        if (s.isSuccess) {
+            nav.popBackStack()
+            vm.reset()
+        }
     }
 
     Column(Modifier.fillMaxSize().padding(20.dp)) {
         Text("Pay tuition fee", style = MaterialTheme.typography.titleLarge)
-        Text("UGX 1,800,000", style = MaterialTheme.typography.headlineSmall, color = Color(0xFF0F6E56))
+        Text(
+            "UGX 1,800,000",
+            style = MaterialTheme.typography.headlineSmall,
+            color = Color(0xFF0F6E56)
+        )
         Spacer(Modifier.height(20.dp))
         Text("Payment method", style = MaterialTheme.typography.labelLarge)
         Spacer(Modifier.height(8.dp))
-        // Method selector buttons
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("mtn" to "MTN MoMo", "airtel" to "Airtel", "bank" to "Bank").forEach { (id, label) ->
                 FilterChip(
@@ -30,16 +63,15 @@ fun PaymentScreen(vm: PaymentViewModel, nav: NavController) {
             }
         }
         Spacer(Modifier.height(16.dp))
-        // Dynamic fields based on method
         if (s.method != "bank") {
             OutlinedTextField(
-                value = s.phone, onValueChange = vm::onPhoneChanged,
+                value = s.phone,
+                onValueChange = vm::onPhoneChanged,
                 label = { Text(if (s.method == "mtn") "MTN number" else "Airtel number") },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
             )
         } else {
-            // Bank transfer — show account details + reference input
             Card(Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(12.dp)) {
                     Text("Stanbic Bank Uganda", fontWeight = FontWeight.Bold)
@@ -49,14 +81,16 @@ fun PaymentScreen(vm: PaymentViewModel, nav: NavController) {
             }
             Spacer(Modifier.height(8.dp))
             OutlinedTextField(
-                value = s.reference, onValueChange = vm::onRefChanged,
+                value = s.reference,
+                onValueChange = vm::onRefChanged,
                 label = { Text("Bank reference number") },
                 modifier = Modifier.fillMaxWidth()
             )
         }
         Spacer(Modifier.height(8.dp))
         OutlinedTextField(
-            value = s.amount, onValueChange = vm::onAmountChanged,
+            value = s.amount,
+            onValueChange = vm::onAmountChanged,
             label = { Text("Amount (UGX)") },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
@@ -72,7 +106,9 @@ fun PaymentScreen(vm: PaymentViewModel, nav: NavController) {
                 CircularProgressIndicator(Modifier.size(20.dp))
                 Spacer(Modifier.width(8.dp))
                 Text(if (s.method != "bank") "Waiting for PIN approval..." else "Submitting...")
-            } else Text("Pay now")
+            } else {
+                Text("Pay now")
+            }
         }
     }
 }
