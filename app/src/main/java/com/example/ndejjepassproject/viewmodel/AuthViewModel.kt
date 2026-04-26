@@ -1,13 +1,21 @@
-// viewmodel/AuthViewModel.kt
-// Manages login state. The UI observes uiState and reacts to changes.
-// isLoggedIn + needsSetup drives the NavGraph routing decision.
+package com.example.ndejjepassproject.viewmodel
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.ndejjepassproject.data.db.entities.StudentEntity
+import com.example.ndejjepassproject.data.repository.StudentRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 data class AuthUiState(
     val isLoading: Boolean = false,
     val error: String? = null,
     val student: StudentEntity? = null,
     val isLoggedIn: Boolean = false,
-    val needsSetup: Boolean = false  // true → navigate to AcademicSetupScreen
+    val needsSetup: Boolean = false
 )
 
 class AuthViewModel(private val repo: StudentRepository) : ViewModel() {
@@ -29,7 +37,6 @@ class AuthViewModel(private val repo: StudentRepository) : ViewModel() {
                             isLoading = false,
                             student = student,
                             isLoggedIn = true,
-                            // If setup not done → AcademicSetupScreen
                             needsSetup = !student.isSetupComplete
                         )
                     }

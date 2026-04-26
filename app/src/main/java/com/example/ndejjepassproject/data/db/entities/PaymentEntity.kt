@@ -1,15 +1,16 @@
-// data/db/entities/PaymentEntity.kt
-// One row per payment submission. Status flows: pending → approved/rejected.
-// Tuition only — exam and functional fees removed.
+package com.example.ndejjepassproject.data.db.entities
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "payments")
 data class PaymentEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val studentId: Int,
     val amount: Double,
-    val reference: String,          // bank ref or auto-gen for mobile money
-    val method: String,             // "mtn" | "airtel" | "bank"
-    val status: String = "pending", // pending | approved | rejected
+    val reference: String,
+    val method: String,
+    val status: String = "pending",
     val rejectionReason: String? = null,
     val submittedAt: Long = System.currentTimeMillis()
 )

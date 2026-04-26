@@ -1,6 +1,16 @@
-/ viewmodel/DashboardViewModel.kt
-// combine() merges three separate Flows into one DashboardUiState.
-// Any change in student, clearance, or payments triggers a UI rebuild.
+package com.example.ndejjepassproject.viewmodel
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.ndejjepassproject.data.db.entities.ClearanceEntity
+import com.example.ndejjepassproject.data.db.entities.PaymentEntity
+import com.example.ndejjepassproject.data.db.entities.StudentEntity
+import com.example.ndejjepassproject.data.repository.PaymentRepository
+import com.example.ndejjepassproject.data.repository.StudentRepository
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 
 data class DashboardUiState(
     val student: StudentEntity? = null,

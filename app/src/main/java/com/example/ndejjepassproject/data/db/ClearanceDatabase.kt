@@ -1,6 +1,15 @@
-// data/db/ClearanceDatabase.kt
-// The single database instance. Singleton pattern with synchronized
-// block prevents two threads creating two databases at the same time.
+package com.example.ndejjepassproject.data.db
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.example.ndejjepassproject.data.db.dao.ClearanceDao
+import com.example.ndejjepassproject.data.db.dao.PaymentDao
+import com.example.ndejjepassproject.data.db.dao.StudentDao
+import com.example.ndejjepassproject.data.db.entities.ClearanceEntity
+import com.example.ndejjepassproject.data.db.entities.PaymentEntity
+import com.example.ndejjepassproject.data.db.entities.StudentEntity
 
 @Database(
     entities = [StudentEntity::class, PaymentEntity::class, ClearanceEntity::class],
@@ -14,7 +23,8 @@ abstract class ClearanceDatabase : RoomDatabase() {
     abstract fun clearanceDao(): ClearanceDao
 
     companion object {
-        @Volatile private var INSTANCE: ClearanceDatabase? = null
+        @Volatile
+        private var INSTANCE: ClearanceDatabase? = null
 
         fun getInstance(context: Context): ClearanceDatabase {
             return INSTANCE ?: synchronized(this) {

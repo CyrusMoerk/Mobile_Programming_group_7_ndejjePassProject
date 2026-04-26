@@ -1,12 +1,13 @@
-// data/db/entities/ClearanceEntity.kt
-// One row per student. Tracks tuition progress only.
-// percentage and isCleared are recalculated on every admin approval.
+package com.example.ndejjepassproject.data.db.entities
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "clearance")
 data class ClearanceEntity(
     @PrimaryKey val studentId: Int,
-    val tuitionDue: Double = 1_800_000.0, // set by admin — only tuition
+    val tuitionDue: Double = 1_800_000.0,
     val tuitionPaid: Double = 0.0,
-    val percentage: Int = 0,              // 0–100, derived field
-    val isCleared: Boolean = false        // true → QR permit unlocked
+    val percentage: Int = 0,
+    val isCleared: Boolean = false
 )

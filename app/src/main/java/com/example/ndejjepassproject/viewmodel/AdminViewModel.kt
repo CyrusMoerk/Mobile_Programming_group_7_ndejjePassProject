@@ -1,7 +1,14 @@
-// viewmodel/AdminViewModel.kt
-// Admin-side ViewModel — sees all pending payments.
-// approvePayment and rejectPayment delegate to PaymentRepository
-// which recalculates clearance automatically.
+package com.example.ndejjepassproject.viewmodel
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.ndejjepassproject.data.db.entities.PaymentEntity
+import com.example.ndejjepassproject.data.repository.PaymentRepository
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 data class AdminUiState(
     val pendingPayments: List<PaymentEntity> = emptyList(),
@@ -16,15 +23,10 @@ class AdminViewModel(private val repo: PaymentRepository) : ViewModel() {
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), AdminUiState())
 
     fun approve(paymentId: Int, studentId: Int) {
-        viewModelScope.launch {
-            repo.approvePayment(paymentId, studentId)
-            // clearance is recalculated inside approvePayment
-        }
+        viewModelScope.launch { repo.approvePayment(paymentId, studentId) }
     }
 
     fun reject(paymentId: Int, reason: String) {
-        viewModelScope.launch {
-            repo.rejectPayment(paymentId, reason)
-        }
+        viewModelScope.launch { repo.rejectPayment(paymentId, reason) }
     }
 }
