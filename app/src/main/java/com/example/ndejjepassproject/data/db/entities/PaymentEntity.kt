@@ -1,15 +1,39 @@
+// data/db/entities/StudentEntity.kt
+// Comments now clearly mark every field as EDITABLE or LOCKED.
+// The entity itself does not enforce the lock — the repository does.
 
-// One row per payment submission. Status flows: pending → approved/rejected.
-// Tuition only — exam and functional fees removed.
+@Entity(tableName = "students")
+data class StudentEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,                          // SYSTEM — never touched
 
-@Entity(tableName = "payments")
-data class PaymentEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val studentId: Int,
-    val amount: Double,
-    val reference: String,          // bank ref or auto-gen for mobile money
-    val method: String,             // "mtn" | "airtel" | "bank"
-    val status: String = "pending", // pending | approved | rejected
-    val rejectionReason: String? = null,
-    val submittedAt: Long = System.currentTimeMillis()
+
+    val name: String,                           // EDITABLE by student
+
+
+    val email: String,                          // LOCKED — university assigned
+
+    val passwordHash: String,                  // EDITABLE via change-password only
+
+
+    val regNumber: String,                     // LOCKED — auto-generated once
+
+
+    val programCode: String = "306",           // LOCKED — the 306, never changes
+
+
+    val programName: String = "",              // LOCKED — set once at academic setup
+
+
+
+    val year: Int = 1,                         // EDITABLE by student
+
+
+    val semester: Int = 1,                     // EDITABLE by student
+
+
+
+    val role: String = "student",              // LOCKED — admin assigns, student cannot change
+
+    val isSetupComplete: Boolean = false       // SYSTEM — set by app, not user
 )
