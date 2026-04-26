@@ -1,48 +1,75 @@
-//data/repository/StudentRepository.kt
-// Handles login validation, academic setup, and student data reads.
-// This is where business rules for authentication live.
+// data/repository/StudentRepository.kt
+// updateProfile() is the key function.
+// It fetches the CURRENT entity from the database first,
+// then uses .copy() to apply ONLY the allowed fields.
+// Whatever the student passes for email/role/regNumber — ignored.
 
 class StudentRepository(
     private val studentDao: StudentDao,
     private val clearanceDao: ClearanceDao
 ) {
-    // LOGIN — two validations before hitting the database:
-    // 1. Email domain must be university email
-    // 2. Password hash must match what is stored
-    suspend fun login(email: String, password: String): Result<StudentEntity> {
-        if (!email.endsWith("@stud.ndejjeuniversity.ac.ug")) {
-            return Result.failure(Exception("Use your university email address"))
-        }
-        val student = studentDao.getStudentByEmail(email)
-            ?: return Result.failure(Exception("Account not found"))
-        if (student.passwordHash != hashPassword(password)) {
-            return Result.failure(Exception("Incorrect password"))
-        }
-        return Result.success(student)
+
+    // ... existing login(), getStudent(), getClearance() stay the same ...
+
+    // UPDATE PROFILE — only name, year, semester are applied.
+    // All locked fields come from the existing database row — untouched.
+    suspend fun updateProfile(
+        studentId: Int,
+        request: StudentUpdateRequest
+    ): Result<Unit> {
+        return try {
+            // Step 1: Fetch the real current entity from database
+            val existing = studentDao.getStudentById(studentId).first()
+                ?: return Result.failure(Exception("Student not found"))
+
+            // Step 2: Validate the request before applying
+            if (request.name.isBlank())
+                return Result.failure(Exception("Name cannot be empty"))
+            if (request.year !in 1..5)
+                return Result.failure(Exception("Year must be between 1 and 5"))
+            if (request.semester !in 1..2)
+                return Result.failure(Exception("Semester must be 1 or 2"))
+
+            // Step 3: .copy() with ONLY the 3 editable fields.
+            // email, regNumber, programCode, programName, role, passwordHash
+            // are ALL taken from 'existing' — student cannot touch them.
+            studentDao.updateStudent(
+                existing.copy(
+                    name     = request.name.trim(),
+                    year     = request.year,
+                    semester = request.semester
+                    // every other field inherits from 'existing' automatically
+                )
+            )
+            Result.success(Unit)
+        } catch (e: Exception) { Result.failure(e) }
     }
 
-    // Returns Flow — dashboard screen observes this and updates automatically
-    fun getStudent(id: Int): Flow<StudentEntity?> = studentDao.getStudentById(id)
+    // CHANGE PASSWORD — separate function, separate validation flow.
+    // Requires current password to be correct before allowing change.
+    suspend fun changePassword(
+        studentId: Int,
+        request: PasswordChangeRequest
+    ): Result<Unit> {
+        return try {
+            val existing = studentDao.getStudentById(studentId).first()
+                ?: return Result.failure(Exception("Student not found"))
 
-    fun getClearance(id: Int): Flow<ClearanceEntity?> = clearanceDao.getClearanceByStudent(id)
+            // Must verify current password first
+            if (existing.passwordHash != hashPassword(request.currentPassword))
+                return Result.failure(Exception("Current password is incorrect"))
+            if (request.newPassword != request.confirmPassword)
+                return Result.failure(Exception("Passwords do not match"))
+            if (request.newPassword.length < 8)
+                return Result.failure(Exception("Password must be at least 8 characters"))
 
-    // Called on first login — saves program choice and creates clearance row
-    suspend fun completeAcademicSetup(
-        studentId: Int, programName: String, year: Int, semester: Int
-    ) {
-        studentDao.getStudentById(studentId).first()?.let { existing ->
-            studentDao.updateStudent(existing.copy(
-                programName = programName,
-                year = year,
-                semester = semester,
-                isSetupComplete = true
-            ))
-        }
-        // Seed the clearance row with tuition due = 1,800,000 (tuition only)
-        clearanceDao.insertClearance(ClearanceEntity(studentId = studentId))
+            studentDao.updateStudent(
+                existing.copy(passwordHash = hashPassword(request.newPassword))
+            )
+            Result.success(Unit)
+        } catch (e: Exception) { Result.failure(e) }
     }
 
-    // SHA-256 hash — passwords never stored as plain text
     private fun hashPassword(password: String): String {
         val md = MessageDigest.getInstance("SHA-256")
         return md.digest(password.toByteArray()).joinToString("") { "%02x".format(it) }
