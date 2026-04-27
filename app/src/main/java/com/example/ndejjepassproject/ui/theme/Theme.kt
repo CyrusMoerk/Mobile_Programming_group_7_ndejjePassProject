@@ -1,58 +1,75 @@
 package com.example.ndejjepassproject.ui.theme
 
-import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
-)
-
+// ── Light colour scheme ───────────────────────────────────────
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary            = Green600,
+    onPrimary          = White,
+    primaryContainer   = Green50,
+    onPrimaryContainer = Green900,
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    secondary          = Green400,
+    onSecondary        = White,
+    secondaryContainer = Green100,
+    onSecondaryContainer = Green800,
+
+    background         = Background,
+    onBackground       = Green900,
+
+    surface            = White,
+    onSurface          = Green900,
+    surfaceVariant     = Green50,
+    onSurfaceVariant   = Green800,
+
+    error              = Red600,
+    onError            = White,
+    errorContainer     = Red50,
+    onErrorContainer   = Red600,
 )
 
+// ── Dark colour scheme ────────────────────────────────────────
+private val DarkColorScheme = darkColorScheme(
+    primary            = Green200,
+    onPrimary          = Green900,
+    primaryContainer   = Green800,
+    onPrimaryContainer = Green50,
+
+    secondary          = Green100,
+    onSecondary        = Green900,
+    secondaryContainer = Green800,
+    onSecondaryContainer = Green100,
+
+    background         = DarkSurface,
+    onBackground       = Green50,
+
+    surface            = Color(0xFF1F2B1C),
+    onSurface          = Green50,
+    surfaceVariant     = Green800,
+    onSurfaceVariant   = Green100,
+
+    error              = Red50,
+    onError            = Red600,
+    errorContainer     = Red600,
+    onErrorContainer   = Red50,
+)
+
+// ── App theme ─────────────────────────────────────────────────
 @Composable
-fun Mobile_Programming_group_7_ndejjePassProjectTheme(
+fun NdejjeClearPassTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
-        content = content
+        typography  = Typography,
+        content     = content
     )
 }
