@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.ndejjepassproject.ui.theme.NdejjeClearPassTheme
+import com.example.ndejjepassproject.view.LoginScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +17,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             NdejjeClearPassTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    // Navigation will go here once Emmanuel sets up the NavGraph
+                    LoginScreen(
+                        onLoginClick = { role, username, password -> }
+                    )
                 }
             }
         }
