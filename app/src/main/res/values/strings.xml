@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">Mobile_Programming_group_7_ndejjePassProject</string>
+    <!-- Login Screen -->
+    <string name="app_name">NdejjeClearPass</string>
+    <string name="label_login">Sign In</string>
+    <string name="label_reg_number">Registration Number</string>
+    <string name="label_username">Username</string>
+    <string name="label_password">Password</string>
+    <string name="label_role">Sign in as</string>
+    <string name="btn_sign_in">Sign In</string>
+    <string name="link_forgot_password">Forgot password?</string>
+    <string name="footer_label">Ndejje University — Official Clearance System</string>
 </resources>
