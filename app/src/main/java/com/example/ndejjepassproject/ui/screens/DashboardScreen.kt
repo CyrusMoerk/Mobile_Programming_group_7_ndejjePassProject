@@ -167,7 +167,8 @@ fun DashboardPreview() {
             student = sampleStudent,
             clearance = sampleClearance,
             payments = samplePayments,
-            onPaymentClick = {}
+            onPaymentClick = {},
+            onProfileClick = {}
         )
     }
 }
