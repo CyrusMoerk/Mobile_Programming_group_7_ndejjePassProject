@@ -130,7 +130,7 @@ fun ProfileScreenContent(
             Spacer(Modifier.height(6.dp))
             OutlinedTextField(
                 value = pw.newPw,
-                onValueChange = onNewPwChanged,
+                onValueChange = vm::onNewPwChanged,
                 label = { Text("New password") },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
