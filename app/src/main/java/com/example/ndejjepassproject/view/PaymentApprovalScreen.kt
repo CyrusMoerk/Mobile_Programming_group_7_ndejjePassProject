@@ -16,6 +16,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ndejjepassproject.ui.theme.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.runtime.LaunchedEffect
 
 data class PaymentReference(
     val id: String,
@@ -110,7 +118,7 @@ fun PaymentApprovalScreen(
             }
 
             items(localPayments, key = { it.id }) { payment ->
-                PaymentReferenceCard(
+                AnimatedPaymentCard(
                     payment = payment,
                     onApprove = {
                         val index = localPayments.indexOfFirst { it.id == payment.id }
@@ -157,6 +165,48 @@ fun StatMiniCard(
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
+    }
+}
+
+@Composable
+fun AnimatedPaymentCard(
+    payment: PaymentReference,
+    onApprove: () -> Unit,
+    onReject: () -> Unit
+) {
+    // Tracks whether this card is visible
+    var visible by remember { mutableStateOf(false) }
+
+    // Trigger entrance animation when card first appears
+    LaunchedEffect(payment.id) {
+        visible = true
+    }
+
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(animationSpec = tween(400)) +
+                slideInVertically(
+                    initialOffsetY = { it / 2 },
+                    animationSpec = tween(400, easing = FastOutSlowInEasing)
+                ),
+        exit = fadeOut(animationSpec = tween(300)) +
+                slideOutHorizontally(
+                    targetOffsetX = { it },
+                    animationSpec = tween(300, easing = FastOutSlowInEasing)
+                )
+    ) {
+        PaymentReferenceCard(
+            payment = payment,
+            onApprove = {
+                // Slide out before updating state
+                visible = false
+                onApprove()
+            },
+            onReject = {
+                visible = false
+                onReject()
+            }
+        )
     }
 }
 
