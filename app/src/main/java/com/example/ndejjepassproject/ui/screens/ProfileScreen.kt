@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
@@ -59,7 +58,7 @@ fun ProfileScreen(vm: ProfileViewModel, nav: NavController) {
         onCurrentPwChanged = vm::onCurrentPwChanged,
         onNewPwChanged = vm::onNewPwChanged,
         onConfirmPwChanged = vm::onConfirmPwChanged,
-        changePassword = vm::changePassword
+        changePassword = vm::changePassword,
     )
 }
 
@@ -101,16 +100,14 @@ fun ProfileScreenContent(
             SelectionRow(
                 label = "Year of study",
                 options = (1..5).map { "Year $it" },
-                selectedIndex = (edit.year - 1).coerceIn(0, 4),
-                onSelected = { idx -> onYearChanged(idx + 1) }
-            )
+                selectedIndex = (edit.year - 1).coerceIn(0, 4)
+            ) { idx -> onYearChanged(idx + 1) }
             Spacer(Modifier.height(8.dp))
             SelectionRow(
                 label = "Semester",
                 options = listOf("Semester 1", "Semester 2"),
-                selectedIndex = (edit.semester - 1).coerceIn(0, 1),
-                onSelected = { idx -> onSemesterChanged(idx + 1) }
-            )
+                selectedIndex = (edit.semester - 1).coerceIn(0, 1)
+            ) { idx -> onSemesterChanged(idx + 1) }
             edit.error?.let { Text(it, color = MaterialTheme.colorScheme.error, fontSize = 13.sp) }
             Spacer(Modifier.height(12.dp))
             Button(onClick = saveProfile, modifier = Modifier.fillMaxWidth(), enabled = !edit.isSaving) {
