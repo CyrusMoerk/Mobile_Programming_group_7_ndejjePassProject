@@ -43,7 +43,7 @@ fun AdminScreen(vm: AdminViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AdminScreen(
+private fun Admin(
     pendingPayments: List<PaymentEntity>,
     onApprove: (Int, Int) -> Unit,
     onReject: (Int, String) -> Unit
