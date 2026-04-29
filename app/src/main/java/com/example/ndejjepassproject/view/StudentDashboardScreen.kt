@@ -19,6 +19,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ndejjepassproject.ui.theme.*
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.FastOutSlowInEasing
 
 @Composable
 fun StudentDashboardScreen(
@@ -153,8 +156,16 @@ fun StudentDashboardScreen(
                     )
                 }
                 Spacer(Modifier.height(8.dp))
+                val animatedProgress by animateFloatAsState(
+                    targetValue = (percentage / 100f).coerceIn(0f, 1f),
+                    animationSpec = tween(
+                        durationMillis = 1200,
+                        easing = FastOutSlowInEasing
+                    ),
+                    label = "tuitionProgress"
+                )
                 LinearProgressIndicator(
-                    progress = { (percentage / 100f).coerceIn(0f, 1f) },
+                    progress = { animatedProgress },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(10.dp)
