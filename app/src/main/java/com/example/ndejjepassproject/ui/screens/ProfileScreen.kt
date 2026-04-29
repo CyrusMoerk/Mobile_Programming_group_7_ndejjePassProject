@@ -165,7 +165,7 @@ private fun SelectionRow(
     label: String,
     options: List<String>,
     selectedIndex: Int,
-    onSelected: (Int) -> Unit
+    onSelected: (Int) -> Unit,
 ) {
     Text(label, style = MaterialTheme.typography.labelLarge)
     Spacer(Modifier.height(6.dp))
