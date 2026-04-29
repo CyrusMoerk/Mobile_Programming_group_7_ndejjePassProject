@@ -28,11 +28,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.ndejjepassproject.ui.theme.Mobile_Programming_group_7_ndejjePassProjectTheme
+import com.example.ndejjepassproject.viewmodel.AuthUiState
 import com.example.ndejjepassproject.viewmodel.AuthViewModel
 
 @Composable
 fun LoginScreen(vm: AuthViewModel, nav: NavController) {
     val state by vm.state.collectAsState()
+    LoginScreenContent(
+        state = state,
+        onLogin = { email, password -> vm.login(email, password) }
+    )
+}
+
+@Composable
+fun LoginScreenContent(
+    state: AuthUiState,
+    onLogin: (String, String) -> Unit
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -68,7 +82,7 @@ fun LoginScreen(vm: AuthViewModel, nav: NavController) {
         }
         Spacer(Modifier.height(24.dp))
         Button(
-            onClick = { vm.login(email, password) },
+            onClick = { onLogin(email, password) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -80,5 +94,16 @@ fun LoginScreen(vm: AuthViewModel, nav: NavController) {
                 Text("Log in")
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreview() {
+    Mobile_Programming_group_7_ndejjePassProjectTheme {
+        LoginScreenContent(
+            state = AuthUiState(),
+            onLogin = { _, _ -> }
+        )
     }
 }
