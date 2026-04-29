@@ -25,8 +25,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.ndejjepassproject.data.db.entities.ClearanceEntity
 import com.example.ndejjepassproject.data.db.entities.PaymentEntity
+import com.example.ndejjepassproject.data.db.entities.StudentEntity
 import com.example.ndejjepassproject.ui.navigation.Screen
+import com.example.ndejjepassproject.ui.theme.Mobile_Programming_group_7_ndejjePassProjectTheme
 import com.example.ndejjepassproject.viewmodel.DashboardViewModel
 
 @Composable
@@ -35,6 +39,21 @@ fun DashboardScreen(vm: DashboardViewModel, nav: NavController) {
     val student = s.student ?: return
     val clearance = s.clearance
 
+    DashboardContent(
+        student = student,
+        clearance = clearance,
+        payments = s.payments,
+        onPaymentClick = { nav.navigate(Screen.Payment.route) }
+    )
+}
+
+@Composable
+fun DashboardContent(
+    student: StudentEntity,
+    clearance: ClearanceEntity?,
+    payments: List<PaymentEntity>,
+    onPaymentClick: () -> Unit
+) {
     Column(Modifier.fillMaxSize()) {
         Box(
             Modifier
@@ -71,7 +90,7 @@ fun DashboardScreen(vm: DashboardViewModel, nav: NavController) {
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .clickable { nav.navigate(Screen.Payment.route) }
+                .clickable { onPaymentClick() }
         ) {
             Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                 Column {
@@ -85,7 +104,7 @@ fun DashboardScreen(vm: DashboardViewModel, nav: NavController) {
             }
         }
         LazyColumn(Modifier.padding(16.dp)) {
-            items(s.payments, key = { it.id }) { payment ->
+            items(payments, key = { it.id }) { payment ->
                 PaymentHistoryItem(payment)
             }
         }
@@ -102,5 +121,35 @@ private fun PaymentHistoryItem(payment: PaymentEntity) {
             }
             Text(payment.status.uppercase(), style = MaterialTheme.typography.bodySmall)
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DashboardPreview() {
+    val sampleStudent = StudentEntity(
+        name = "John Doe",
+        regNumber = "2023/BSIT/001",
+        programName = "Bachelor of Science in Information Technology",
+        email = "john@example.com",
+        passwordHash = ""
+    )
+    val sampleClearance = ClearanceEntity(
+        studentId = 1,
+        percentage = 75,
+        isCleared = false
+    )
+    val samplePayments = listOf(
+        PaymentEntity(id = 1, studentId = 1, amount = 500000.0, reference = "REF1", method = "Mobile Money", status = "approved"),
+        PaymentEntity(id = 2, studentId = 1, amount = 300000.0, reference = "REF2", method = "Bank", status = "pending")
+    )
+
+    Mobile_Programming_group_7_ndejjePassProjectTheme {
+        DashboardContent(
+            student = sampleStudent,
+            clearance = sampleClearance,
+            payments = samplePayments,
+            onPaymentClick = {}
+        )
     }
 }
