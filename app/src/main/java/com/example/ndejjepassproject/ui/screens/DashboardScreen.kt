@@ -90,7 +90,6 @@ fun DashboardContent(
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .clickable { onPaymentClick() }
         ) {
             Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                 Column {
