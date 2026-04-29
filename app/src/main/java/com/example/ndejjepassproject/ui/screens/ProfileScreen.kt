@@ -14,7 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -130,7 +130,7 @@ fun ProfileScreenContent(
             Spacer(Modifier.height(6.dp))
             OutlinedTextField(
                 value = pw.newPw,
-                onValueChange = vm::onNewPwChanged,
+                onValueChange = onNewPwChanged,
                 label = { Text("New password") },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
@@ -199,7 +199,7 @@ private fun LockedField(label: String, value: String) {
             )
         }
     }
-    Divider()
+    HorizontalDivider()
 }
 
 @Preview(showBackground = true)
