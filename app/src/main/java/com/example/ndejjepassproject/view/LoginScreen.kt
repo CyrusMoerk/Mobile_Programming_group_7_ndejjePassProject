@@ -117,7 +117,7 @@ fun LoginScreen(
             value         = studentId,
             onValueChange = { studentId = it },
             label         = {
-                Text(if (selectedRole == "Student") "Registration Number" else "Username")
+                Text(if (selectedRole == "Student") "Email Address" else "Username")
             },
             modifier      = Modifier.fillMaxWidth(),
             singleLine    = true,
