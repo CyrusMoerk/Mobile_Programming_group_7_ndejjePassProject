@@ -11,8 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -43,7 +46,8 @@ fun DashboardScreen(vm: DashboardViewModel, nav: NavController) {
         student = student,
         clearance = clearance,
         payments = s.payments,
-        onPaymentClick = { nav.navigate(Screen.Payment.route) }
+        onPaymentClick = { nav.navigate(Screen.Payment.route) },
+        onProfileClick = { nav.navigate(Screen.Profile.route) }
     )
 }
 
@@ -52,7 +56,8 @@ fun DashboardContent(
     student: StudentEntity,
     clearance: ClearanceEntity?,
     payments: List<PaymentEntity>,
-    onPaymentClick: () -> Unit
+    onPaymentClick: () -> Unit,
+    onProfileClick: () -> Unit
 ) {
     Column(Modifier.fillMaxSize()) {
         Box(
@@ -61,10 +66,23 @@ fun DashboardContent(
                 .background(Color(0xFF0F6E56))
                 .padding(20.dp)
         ) {
-            Column {
-                Text("Hello, ${student.name}", color = Color.White, fontSize = 18.sp)
-                Text(student.regNumber, color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
-                Text(student.programName, color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+            ) {
+                Column {
+                    Text("Hello, ${student.name}", color = Color.White, fontSize = 18.sp)
+                    Text(student.regNumber, color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
+                    Text(student.programName, color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
+                }
+                IconButton(onClick = { onProfileClick() }) {
+                    Icon(
+                        Icons.Default.Person,
+                        contentDescription = "Profile",
+                        tint = Color.White
+                    )
+                }
             }
         }
         Card(Modifier.fillMaxWidth().padding(16.dp)) {
