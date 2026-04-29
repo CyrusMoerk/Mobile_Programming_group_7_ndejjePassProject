@@ -32,6 +32,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.ndejjepassproject.data.db.entities.StudentEntity
+import com.example.ndejjepassproject.ui.theme.Mobile_Programming_group_7_ndejjePassProjectTheme
+import com.example.ndejjepassproject.viewmodel.PasswordState
+import com.example.ndejjepassproject.viewmodel.ProfileEditState
 import com.example.ndejjepassproject.viewmodel.ProfileViewModel
 
 @Composable
@@ -44,6 +49,35 @@ fun ProfileScreen(vm: ProfileViewModel, nav: NavController) {
         if (edit.saveSuccess) nav.popBackStack()
     }
 
+    ProfileScreenContent(
+        student = student,
+        edit = edit,
+        pw = pw,
+        onNameChanged = vm::onNameChanged,
+        onYearChanged = vm::onYearChanged,
+        onSemesterChanged = vm::onSemesterChanged,
+        saveProfile = vm::saveProfile,
+        onCurrentPwChanged = vm::onCurrentPwChanged,
+        onNewPwChanged = vm::onNewPwChanged,
+        onConfirmPwChanged = vm::onConfirmPwChanged,
+        changePassword = vm::changePassword
+    )
+}
+
+@Composable
+fun ProfileScreenContent(
+    student: StudentEntity?,
+    edit: ProfileEditState,
+    pw: PasswordState,
+    onNameChanged: (String) -> Unit,
+    onYearChanged: (Int) -> Unit,
+    onSemesterChanged: (Int) -> Unit,
+    saveProfile: () -> Unit,
+    onCurrentPwChanged: (String) -> Unit,
+    onNewPwChanged: (String) -> Unit,
+    onConfirmPwChanged: (String) -> Unit,
+    changePassword: () -> Unit
+) {
     LazyColumn(
         Modifier.fillMaxSize().padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -60,7 +94,7 @@ fun ProfileScreen(vm: ProfileViewModel, nav: NavController) {
             SectionHeader("Edit your info")
             OutlinedTextField(
                 value = edit.name,
-                onValueChange = vm::onNameChanged,
+                onValueChange = onNameChanged,
                 label = { Text("Full name") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -69,18 +103,18 @@ fun ProfileScreen(vm: ProfileViewModel, nav: NavController) {
                 label = "Year of study",
                 options = (1..5).map { "Year $it" },
                 selectedIndex = (edit.year - 1).coerceIn(0, 4),
-                onSelected = { idx -> vm.onYearChanged(idx + 1) }
+                onSelected = { idx -> onYearChanged(idx + 1) }
             )
             Spacer(Modifier.height(8.dp))
             SelectionRow(
                 label = "Semester",
                 options = listOf("Semester 1", "Semester 2"),
                 selectedIndex = (edit.semester - 1).coerceIn(0, 1),
-                onSelected = { idx -> vm.onSemesterChanged(idx + 1) }
+                onSelected = { idx -> onSemesterChanged(idx + 1) }
             )
             edit.error?.let { Text(it, color = MaterialTheme.colorScheme.error, fontSize = 13.sp) }
             Spacer(Modifier.height(12.dp))
-            Button(onClick = vm::saveProfile, modifier = Modifier.fillMaxWidth(), enabled = !edit.isSaving) {
+            Button(onClick = saveProfile, modifier = Modifier.fillMaxWidth(), enabled = !edit.isSaving) {
                 if (edit.isSaving) CircularProgressIndicator(Modifier.height(18.dp))
                 else Text("Save changes")
             }
@@ -89,7 +123,7 @@ fun ProfileScreen(vm: ProfileViewModel, nav: NavController) {
             SectionHeader("Change password")
             OutlinedTextField(
                 value = pw.current,
-                onValueChange = vm::onCurrentPwChanged,
+                onValueChange = onCurrentPwChanged,
                 label = { Text("Current password") },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
@@ -97,7 +131,7 @@ fun ProfileScreen(vm: ProfileViewModel, nav: NavController) {
             Spacer(Modifier.height(6.dp))
             OutlinedTextField(
                 value = pw.newPw,
-                onValueChange = vm::onNewPwChanged,
+                onValueChange = onNewPwChanged,
                 label = { Text("New password") },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
@@ -105,7 +139,7 @@ fun ProfileScreen(vm: ProfileViewModel, nav: NavController) {
             Spacer(Modifier.height(6.dp))
             OutlinedTextField(
                 value = pw.confirm,
-                onValueChange = vm::onConfirmPwChanged,
+                onValueChange = onConfirmPwChanged,
                 label = { Text("Confirm new password") },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
@@ -114,7 +148,7 @@ fun ProfileScreen(vm: ProfileViewModel, nav: NavController) {
             if (pw.saveSuccess) Text("Password changed successfully", color = Color(0xFF0F6E56))
             Spacer(Modifier.height(10.dp))
             OutlinedButton(
-                onClick = vm::changePassword,
+                onClick = changePassword,
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !pw.isSaving
             ) {
