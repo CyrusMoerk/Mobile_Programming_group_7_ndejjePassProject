@@ -15,11 +15,13 @@ import com.example.ndejjepassproject.ui.screens.AdminScreen
 import com.example.ndejjepassproject.ui.screens.DashboardScreen
 import com.example.ndejjepassproject.ui.screens.LoginScreen
 import com.example.ndejjepassproject.ui.screens.PaymentScreen
+import com.example.ndejjepassproject.ui.screens.ProfileScreen
 import com.example.ndejjepassproject.viewmodel.AdminViewModel
 import com.example.ndejjepassproject.viewmodel.AppViewModelFactory
 import com.example.ndejjepassproject.viewmodel.AuthViewModel
 import com.example.ndejjepassproject.viewmodel.DashboardViewModel
 import com.example.ndejjepassproject.viewmodel.PaymentViewModel
+import com.example.ndejjepassproject.viewmodel.ProfileViewModel
 
 sealed class Screen(val route: String) {
     data object Login : Screen("login")
@@ -27,6 +29,7 @@ sealed class Screen(val route: String) {
     data object Dashboard : Screen("dashboard")
     data object Payment : Screen("payment")
     data object Admin : Screen("admin")
+    data object Profile : Screen("profile")
     data object Scanner : Screen("scanner")
 }
 
@@ -61,6 +64,11 @@ fun AppNavGraph(db: ClearanceDatabase, navController: NavHostController = rememb
             if (studentId == null) return@composable
             val vm: PaymentViewModel = viewModel(factory = AppViewModelFactory(db, studentId))
             PaymentScreen(vm, navController)
+        }
+        composable(Screen.Profile.route) {
+            if (studentId == null) return@composable
+            val vm: ProfileViewModel = viewModel(factory = AppViewModelFactory(db, studentId))
+            ProfileScreen(vm, navController)
         }
         composable(Screen.Admin.route) {
             val vm: AdminViewModel = viewModel(factory = AppViewModelFactory(db))
