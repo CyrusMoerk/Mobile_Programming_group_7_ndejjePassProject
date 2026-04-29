@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Screen padding -->
+    <dimen name="screenPadding">16dp</dimen>
+    <dimen name="screenPaddingLarge">24dp</dimen>
+
+    <!-- Spacing -->
+    <dimen name="spacingXSmall">4dp</dimen>
+    <dimen name="spacingSmall">8dp</dimen>
+    <dimen name="spacingMedium">12dp</dimen>
+    <dimen name="spacingLarge">16dp</dimen>
+    <dimen name="spacingXLarge">24dp</dimen>
+    <dimen name="spacingXXLarge">32dp</dimen>
+
+    <!-- Component sizes -->
+    <dimen name="buttonHeight">52dp</dimen>
+    <dimen name="buttonHeightSmall">48dp</dimen>
+    <dimen name="iconSizeLarge">72dp</dimen>
+    <dimen name="iconSizeMedium">32dp</dimen>
+    <dimen name="iconSizeSmall">20dp</dimen>
+    <dimen name="iconSizeXSmall">16dp</dimen>
+
+    <!-- Avatar sizes -->
+    <dimen name="avatarSizeLarge">96dp</dimen>
+    <dimen name="avatarSizeMedium">80dp</dimen>
+    <dimen name="avatarSizeSmall">56dp</dimen>
+    <dimen name="avatarSizeXSmall">40dp</dimen>
+
+    <!-- Card -->
+    <dimen name="cardCornerRadius">12dp</dimen>
+    <dimen name="cardCornerRadiusLarge">16dp</dimen>
+    <dimen name="cardCornerRadiusSmall">8dp</dimen>
+    <dimen name="cardElevation">3dp</dimen>
+    <dimen name="cardElevationLarge">6dp</dimen>
+    <dimen name="cardPadding">16dp</dimen>
+
+    <!-- Progress bar -->
+    <dimen name="progressBarHeight">10dp</dimen>
+    <dimen name="progressBarHeightSmall">6dp</dimen>
+
+    <!-- Header -->
+    <dimen name="headerPaddingTop">40dp</dimen>
+    <dimen name="headerPaddingBottom">20dp</dimen>
+
+    <!-- Border -->
+    <dimen name="borderThin">0.5dp</dimen>
+    <dimen name="borderNormal">1dp</dimen>
+    <dimen name="borderThick">1.5dp</dimen>
+
+    <!-- QR Code -->
+    <dimen name="qrCodeSize">220dp</dimen>
+    <dimen name="qrIconSize">140dp</dimen>
+
+    <!-- Login -->
+    <dimen name="loginLogoSize">72dp</dimen>
+    <dimen name="loginHorizontalPadding">28dp</dimen>
+</resources>
