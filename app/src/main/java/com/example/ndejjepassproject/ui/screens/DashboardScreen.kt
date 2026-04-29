@@ -35,7 +35,7 @@ import com.example.ndejjepassproject.data.db.entities.PaymentEntity
 import com.example.ndejjepassproject.data.db.entities.StudentEntity
 import com.example.ndejjepassproject.ui.navigation.Screen
 import com.example.ndejjepassproject.ui.theme.Mobile_Programming_group_7_ndejjePassProjectTheme
-import com.example.ndejjepassproject.viewmodel.DashboardViewModel
+
 
 @Composable
 fun DashboardScreen(vm: DashboardViewModel, nav: NavController) {
