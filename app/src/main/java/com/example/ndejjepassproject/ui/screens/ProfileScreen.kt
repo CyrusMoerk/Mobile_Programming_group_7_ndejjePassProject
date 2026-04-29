@@ -202,3 +202,40 @@ private fun LockedField(label: String, value: String) {
     }
     Divider()
 }
+
+@Preview(showBackground = true)
+@Composable
+fun ProfileScreenPreview() {
+    val sampleStudent = StudentEntity(
+        name = "John Doe",
+        email = "john.doe@ndejje.ac.ug",
+        passwordHash = "",
+        regNumber = "2023/BSIT/001",
+        programCode = "306",
+        programName = "Bachelor of Science in Information Technology",
+        year = 2,
+        semester = 1
+    )
+    val sampleEdit = ProfileEditState(
+        name = "John Doe",
+        year = 2,
+        semester = 1
+    )
+    val samplePw = PasswordState()
+
+    Mobile_Programming_group_7_ndejjePassProjectTheme {
+        ProfileScreenContent(
+            student = sampleStudent,
+            edit = sampleEdit,
+            pw = samplePw,
+            onNameChanged = {},
+            onYearChanged = {},
+            onSemesterChanged = {},
+            saveProfile = {},
+            onCurrentPwChanged = {},
+            onNewPwChanged = {},
+            onConfirmPwChanged = {},
+            changePassword = {}
+        )
+    }
+}
