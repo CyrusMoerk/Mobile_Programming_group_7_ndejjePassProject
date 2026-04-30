@@ -78,7 +78,7 @@ fun ProfileScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = studentName.first().toString(),
+                            text = if (studentName.isNotEmpty()) studentName.first().toString() else "?",
                             fontSize = 40.sp,
                             fontWeight = FontWeight.Bold,
                             color = White
