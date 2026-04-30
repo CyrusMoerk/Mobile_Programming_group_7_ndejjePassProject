@@ -1,12 +1,166 @@
 <resources>
-    <!-- Login Screen -->
+    <!-- App -->
     <string name="app_name">NdejjeClearPass</string>
-    <string name="label_login">Sign In</string>
+    <string name="app_tagline">Ndejje University Kampala Campus</string>
+    <string name="footer_label">Ndejje University — Official Clearance System</string>
+
+    <!-- Common buttons -->
+    <string name="btn_back">Back</string>
+    <string name="btn_submit">Submit</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_approve">Approve</string>
+    <string name="btn_reject">Reject</string>
+    <string name="btn_print">Print Exam Permit</string>
+    <string name="btn_logout">Sign Out</string>
+    <string name="btn_change_photo">Update Passport Photo</string>
+    <string name="btn_sign_in">Sign In</string>
+    <string name="btn_submit_reference">Submit Payment Reference</string>
+    <string name="btn_submit_reg">Submit Registration Form</string>
+    <string name="btn_save_tuition">Save Tuition Configuration</string>
+    <string name="btn_submit_another">Submit Another</string>
+    <string name="btn_go_back">Go Back</string>
+
+    <!-- Common labels -->
+    <string name="label_loading">Loading…</string>
+    <string name="label_search">Search name or reg number</string>
+    <string name="label_filter">Filter</string>
+    <string name="label_all">All</string>
+
+    <!-- Login Screen -->
+    <string name="label_sign_in_as">Sign in as</string>
     <string name="label_reg_number">Registration Number</string>
     <string name="label_username">Username</string>
     <string name="label_password">Password</string>
-    <string name="label_role">Sign in as</string>
-    <string name="btn_sign_in">Sign In</string>
     <string name="link_forgot_password">Forgot password?</string>
-    <string name="footer_label">Ndejje University — Official Clearance System</string>
+    <string name="role_student">Student</string>
+    <string name="role_admin">Admin</string>
+    <string name="role_security">Security Staff</string>
+    <string name="cd_app_logo">NdejjeClearPass logo</string>
+    <string name="cd_toggle_password">Toggle password visibility</string>
+
+    <!-- Student Dashboard -->
+    <string name="label_tuition_clearance">Tuition Clearance</string>
+    <string name="label_nche_fee">NCHE / National Council Fee</string>
+    <string name="label_nche_paid">Paid — clearance not blocked</string>
+    <string name="label_nche_unpaid">Not paid — registration card will be withheld</string>
+    <string name="label_quick_actions">Quick Actions</string>
+    <string name="label_make_payment">Make Payment</string>
+    <string name="label_my_courses">My Courses</string>
+    <string name="label_exam_permit">Exam Permit</string>
+    <string name="label_payment_history">Payment History</string>
+    <string name="label_100_required">100% required</string>
+    <string name="threshold_reg">60% Reg</string>
+    <string name="threshold_lectures">80% Lectures</string>
+    <string name="threshold_permit">100% Permit</string>
+    <string name="cd_profile">Profile</string>
+    <string name="cd_logout">Logout</string>
+    <string name="cd_nche_status">NCHE fee status</string>
+
+    <!-- Dean\'s Reg Screen -->
+    <string name="title_deans_reg">Dean\'s Registration Form</string>
+    <string name="label_select_courses">Select Your Courses</string>
+    <string name="label_select_retakes">Select Retake Units</string>
+    <string name="label_has_retakes">Do you have retakes?</string>
+    <string name="label_retakes_note">Retake fees will be added to your balance</string>
+    <string name="info_deans_reg">Select the courses you are taking this semester. Retake fees will be added to your balance automatically.</string>
+    <string name="label_credit_units">CU</string>
+
+    <!-- Payment Submission -->
+    <string name="title_payment_submission">Submit Payment</string>
+    <string name="label_payment_method">Payment Method</string>
+    <string name="label_amount_paid">Amount Paid (UGX)</string>
+    <string name="label_reference_code">Bank / Mobile Money Reference Code</string>
+    <string name="hint_reference_code">e.g. TXN202504280001</string>
+    <string name="label_reference_submitted">Reference Submitted</string>
+    <string name="info_payment_submission">Pay at any bank or via Mobile Money, then enter your reference code below. The Accounts Office will confirm it.</string>
+    <string name="warning_payment">Your balance will only update after the Accounts Office confirms your reference. This may take up to 24 hours.</string>
+    <string name="label_balance_due">Balance due: UGX %1$s</string>
+    <string name="info_reference_submitted">Your payment reference has been submitted and is awaiting confirmation from the Accounts Office. Your balance will update once approved.</string>
+    <string name="method_bank">Bank Transfer</string>
+    <string name="method_mtn">MTN Mobile Money</string>
+    <string name="method_airtel">Airtel Money</string>
+
+    <!-- QR Code Screen -->
+    <string name="title_qr_code">My QR Code</string>
+    <string name="subtitle_qr_code">Show this to security staff at block entrances</string>
+    <string name="label_qr_placeholder">QR code generates after ViewModel is wired</string>
+    <string name="info_qr_code">Security staff scan this QR code to verify your identity and clearance status at block entrances.</string>
+    <string name="cd_qr_code">Student QR code</string>
+    <string name="cd_student_avatar">Student avatar</string>
+
+    <!-- Exam Permit -->
+    <string name="title_exam_permit">Examination Permit</string>
+    <string name="label_ndejje_university">NDEJJE UNIVERSITY</string>
+    <string name="label_kampala_campus">Kampala Campus</string>
+    <string name="label_examination_permit">EXAMINATION PERMIT</string>
+    <string name="label_registered_courses">Registered Courses</string>
+    <string name="label_retake_units">Retake Units</string>
+    <string name="label_fully_cleared">FULLY CLEARED — 100%</string>
+    <string name="label_permit_locked">Exam Permit Locked</string>
+    <string name="info_permit_locked">You must clear 100% of your tuition before your Examination Permit is generated.</string>
+    <string name="label_photo">Photo</string>
+    <string name="col_code">Code</string>
+    <string name="col_course_name">Course Name</string>
+    <string name="col_cu">CU</string>
+    <string name="cd_print">Print exam permit</string>
+    <string name="cd_verified">Fully cleared stamp</string>
+    <string name="cd_locked">Permit locked</string>
+    <string name="cd_photo_placeholder">Student photo placeholder</string>
+
+    <!-- Tuition Config -->
+    <string name="title_tuition_config">Tuition Configuration</string>
+    <string name="subtitle_tuition_config">Set fees by programme, mode and intake</string>
+    <string name="label_programme_name">Programme Name</string>
+    <string name="hint_programme_name">e.g. BSc. Computer Science</string>
+    <string name="label_study_mode">Study Mode</string>
+    <string name="label_intake">Intake</string>
+    <string name="label_semester">Semester</string>
+    <string name="label_tuition_amount">Tuition Amount (UGX)</string>
+    <string name="label_nche_amount">NCHE / National Council Fee (UGX)</string>
+    <string name="label_config_summary">Configuration Summary</string>
+    <string name="label_saved_success">Tuition saved successfully.</string>
+    <string name="label_programme_details">Programme Details</string>
+    <string name="label_fee_amounts">Fee Amounts</string>
+    <string name="mode_day">Day</string>
+    <string name="mode_weekend">Weekend</string>
+    <string name="intake_august">August</string>
+    <string name="intake_january">January</string>
+    <string name="semester_one">Semester I</string>
+    <string name="semester_two">Semester II</string>
+
+    <!-- Payment Approval -->
+    <string name="title_payment_approval">Payment Approval</string>
+    <string name="label_pending_refs">%1$d pending references</string>
+    <string name="label_pending">Pending</string>
+    <string name="label_approved">Approved</string>
+    <string name="label_rejected">Rejected</string>
+    <string name="label_method">Method</string>
+    <string name="label_reference">Reference</string>
+    <string name="label_amount">Amount</string>
+    <string name="label_submitted">Submitted</string>
+
+    <!-- Student List -->
+    <string name="title_student_list">Student Clearance List</string>
+    <string name="label_students_count">%1$d students this semester</string>
+    <string name="label_cleared">Cleared</string>
+    <string name="label_partial">Partial</string>
+    <string name="label_below_60">Below 60%</string>
+    <string name="label_filter_cleared">Cleared</string>
+    <string name="label_filter_partial">Partial</string>
+    <string name="label_filter_not_cleared">Not Cleared</string>
+    <string name="label_nche">NCHE</string>
+    <string name="label_permit">Permit</string>
+
+    <!-- Profile Screen -->
+    <string name="title_profile">Profile</string>
+    <string name="label_personal_details">Personal Details</string>
+    <string name="label_academic_details">Academic Details</string>
+    <string name="label_full_name">Full Name</string>
+    <string name="label_email">Email</string>
+    <string name="label_nationality">Nationality</string>
+    <string name="label_year_of_study">Year of Study</string>
+    <string name="label_hall_room">Hall / Room</string>
+    <string name="info_photo_update">Your passport photo can be updated once per semester. It appears on your Examination Permit and QR code.</string>
+    <string name="cd_camera">Update photo</string>
+    <string name="cd_profile_avatar">Student profile avatar</string>
 </resources>
