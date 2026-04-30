@@ -90,7 +90,7 @@ fun StudentDashboardScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = studentName.first().toString(),
+                            text = if (studentName.isNotEmpty()) studentName.first().toString() else "?",
                             style = MaterialTheme.typography.headlineMedium,
                             color = White
                         )
