@@ -79,7 +79,7 @@ fun QRCodeScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = studentName.first().toString(),
+                    text = if (studentName.isNotEmpty()) studentName.first().toString() else "?",
                     fontSize = 36.sp,
                     fontWeight = FontWeight.Bold,
                     color = White
