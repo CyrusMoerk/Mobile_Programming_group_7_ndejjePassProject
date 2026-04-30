@@ -13,11 +13,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ndejjepassproject.ui.theme.*
+import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 
 @Composable
 fun PaymentSubmissionScreen(
@@ -49,7 +50,7 @@ fun PaymentSubmissionScreen(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.Filled.ArrowBack, contentDescription = "Back",
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back",
                         tint = White)
                 }
                 Spacer(Modifier.width(8.dp))
@@ -245,7 +246,7 @@ fun PaymentSubmissionScreen(
                     shape = RoundedCornerShape(8.dp),
                     enabled = referenceCode.isNotBlank() && amount.isNotBlank()
                 ) {
-                    Icon(Icons.Filled.Send, contentDescription = null)
+                    Icon(Icons.AutoMirrored.Filled.Send, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
                     Text("Submit Payment Reference",
                         style = MaterialTheme.typography.titleMedium)
