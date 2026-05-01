@@ -17,7 +17,8 @@ data class PaymentUiState(
     val reference: String = "",
     val isProcessing: Boolean = false,
     val isSuccess: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val balanceDue: Double? = null  // ← add this line
 )
 
 class PaymentViewModel(
@@ -54,8 +55,35 @@ class PaymentViewModel(
         viewModelScope.launch {
             _state.update { it.copy(isProcessing = true, error = null) }
             if (s.method != "bank") delay(3000L)
-            val ref = if (s.method == "bank") s.reference else "MM-${System.currentTimeMillis()}"
-            repo.submitPayment(studentId, amt, ref, s.method).fold(
+            repo.submitPayment(
+                studentId = studentId,
+                amount    = amt,
+                method    = s.method,
+                filePath  = "",
+                fileType  = ""
+            ).fold(
+                onSuccess = { _state.update { it.copy(isProcessing = false, isSuccess = true) } },
+                onFailure = { e -> _state.update { it.copy(isProcessing = false, error = e.message) } }
+            )
+        }
+    }
+
+    fun submitPaymentWithReceipt(filePath: String, fileType: String) {
+        val s = _state.value
+        val amt = s.amount.toDoubleOrNull()
+        if (amt == null || amt <= 0) {
+            _state.update { it.copy(error = "Enter a valid amount") }
+            return
+        }
+        viewModelScope.launch {
+            _state.update { it.copy(isProcessing = true, error = null) }
+            repo.submitPayment(
+                studentId = studentId,
+                amount    = amt,
+                method    = s.method,
+                filePath  = filePath,
+                fileType  = fileType
+            ).fold(
                 onSuccess = { _state.update { it.copy(isProcessing = false, isSuccess = true) } },
                 onFailure = { e -> _state.update { it.copy(isProcessing = false, error = e.message) } }
             )

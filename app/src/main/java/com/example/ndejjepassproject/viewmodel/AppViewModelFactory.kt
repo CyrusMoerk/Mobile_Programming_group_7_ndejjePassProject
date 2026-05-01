@@ -11,17 +11,22 @@ class AppViewModelFactory(
     private val studentId: Int = -1
 ) : ViewModelProvider.Factory {
 
-    private val studentRepo by lazy { StudentRepository(db.studentDao(), db.clearanceDao()) }
-    private val paymentRepo by lazy { PaymentRepository(db.paymentDao(), db.clearanceDao()) }
+    private val studentRepo by lazy {
+        StudentRepository(db.studentDao(), db.clearanceDao(), db.courseUnitDao())
+    }
+    private val paymentRepo by lazy {
+        PaymentRepository(db.paymentDao(), db.clearanceDao(), db.receiptDao())
+    }
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when (modelClass) {
-            AuthViewModel::class.java -> AuthViewModel(studentRepo)
+            AuthViewModel::class.java      -> AuthViewModel(studentRepo)
             DashboardViewModel::class.java -> DashboardViewModel(studentRepo, paymentRepo, studentId)
-            PaymentViewModel::class.java -> PaymentViewModel(paymentRepo, studentId)
-            AdminViewModel::class.java -> AdminViewModel(paymentRepo)
-            ProfileViewModel::class.java -> ProfileViewModel(studentRepo, studentId)
+            PaymentViewModel::class.java   -> PaymentViewModel(paymentRepo, studentId)
+            AdminViewModel::class.java     -> AdminViewModel(paymentRepo)
+            ProfileViewModel::class.java   -> ProfileViewModel(studentRepo, studentId)
+            StudentListViewModel::class.java -> StudentListViewModel(studentRepo)
             else -> throw IllegalArgumentException("Unknown ViewModel: ${modelClass.name}")
         } as T
     }

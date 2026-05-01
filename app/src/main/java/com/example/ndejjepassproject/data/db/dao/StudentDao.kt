@@ -1,10 +1,6 @@
 package com.example.ndejjepassproject.data.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.ndejjepassproject.data.db.entities.StudentEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -19,6 +15,12 @@ interface StudentDao {
 
     @Query("SELECT * FROM students WHERE id = :id LIMIT 1")
     fun getStudentById(id: Int): Flow<StudentEntity?>
+
+    @Query("SELECT * FROM students WHERE role = 'student' ORDER BY name ASC")
+    fun getAllStudents(): Flow<List<StudentEntity>>
+
+    @Query("SELECT * FROM students WHERE regNumber = :regNumber LIMIT 1")
+    suspend fun getStudentByRegNumber(regNumber: String): StudentEntity?
 
     @Update
     suspend fun updateStudent(student: StudentEntity)

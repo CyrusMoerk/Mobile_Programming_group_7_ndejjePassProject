@@ -16,5 +16,11 @@ data class StudentEntity(
     val year: Int = 1,
     val semester: Int = 1,
     val role: String = "student",
-    val isSetupComplete: Boolean = false
+    val isSetupComplete: Boolean = false,
+    val photoPath: String = "",
+    val hall: String = "",
+    val nationality: String = "Ugandan",
+    val studyMode: String = "Day",
+    val intake: String = "August",
+    val paymentCode: String = ""
 )

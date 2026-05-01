@@ -5,15 +5,25 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.ndejjepassproject.data.db.dao.ClearanceDao
+import com.example.ndejjepassproject.data.db.dao.CourseUnitDao
 import com.example.ndejjepassproject.data.db.dao.PaymentDao
+import com.example.ndejjepassproject.data.db.dao.ReceiptDao
 import com.example.ndejjepassproject.data.db.dao.StudentDao
 import com.example.ndejjepassproject.data.db.entities.ClearanceEntity
+import com.example.ndejjepassproject.data.db.entities.CourseUnitEntity
 import com.example.ndejjepassproject.data.db.entities.PaymentEntity
+import com.example.ndejjepassproject.data.db.entities.ReceiptEntity
 import com.example.ndejjepassproject.data.db.entities.StudentEntity
 
 @Database(
-    entities = [StudentEntity::class, PaymentEntity::class, ClearanceEntity::class],
-    version = 1,
+    entities = [
+        StudentEntity::class,
+        PaymentEntity::class,
+        ClearanceEntity::class,
+        CourseUnitEntity::class,
+        ReceiptEntity::class
+    ],
+    version = 2,
     exportSchema = false
 )
 abstract class ClearanceDatabase : RoomDatabase() {
@@ -21,6 +31,8 @@ abstract class ClearanceDatabase : RoomDatabase() {
     abstract fun studentDao(): StudentDao
     abstract fun paymentDao(): PaymentDao
     abstract fun clearanceDao(): ClearanceDao
+    abstract fun courseUnitDao(): CourseUnitDao
+    abstract fun receiptDao(): ReceiptDao
 
     companion object {
         @Volatile
@@ -32,7 +44,9 @@ abstract class ClearanceDatabase : RoomDatabase() {
                     context.applicationContext,
                     ClearanceDatabase::class.java,
                     "clearance_db"
-                ).build().also { INSTANCE = it }
+                )
+                    .fallbackToDestructiveMigration()
+                    .build().also { INSTANCE = it }
             }
         }
     }

@@ -7,18 +7,26 @@ import androidx.activity.enableEdgeToEdge
 import com.example.ndejjepassproject.data.db.ClearanceDatabase
 import com.example.ndejjepassproject.data.db.DemoDataSeeder
 import com.example.ndejjepassproject.ui.navigation.AppNavGraph
-import com.example.ndejjepassproject.ui.theme.Mobile_Programming_group_7_ndejjePassProjectTheme
+import com.example.ndejjepassproject.ui.theme.NdejjeClearPassTheme
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val db = ClearanceDatabase.getInstance(applicationContext)
-        lifecycleScope.launch { DemoDataSeeder.seedIfNeeded(db) }
+
+        // ✅ FIXED
+        lifecycleScope.launch {
+            DemoDataSeeder.seedIfNeeded(applicationContext, db)
+        }
+
         enableEdgeToEdge()
+
         setContent {
-            Mobile_Programming_group_7_ndejjePassProjectTheme {
+            NdejjeClearPassTheme {
                 AppNavGraph(db = db)
             }
         }
