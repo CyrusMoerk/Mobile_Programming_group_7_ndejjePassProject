@@ -35,3 +35,6 @@ Password for all demo accounts: `password123`
 
 - This project stores data locally using Room for prototype/demo purposes.
 - Demo records are seeded only if they do not already exist.
+
+## Link to YouTube 
+https://youtu.be/kj75r-Xd-iU
